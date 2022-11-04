@@ -58,6 +58,7 @@ $.ajax({
 /**
  * Get&Display episodes* from API with AJAX
  */
+// #REGION DOGSHITCODE
 // $.ajax({
 //     type: "GET",
 //     url: apiCharacterURL,
@@ -103,25 +104,27 @@ $.ajax({
 // })(apiCharacterURL);
 // console.log();
 
-var epsData = function( URL ) {
+// var epsData = function( URL ) {
 
-    var episData = ( function() { $.ajax({
-        type: "GET",
-        url: URL,
-        success: function ( response ) {
-            var data = null;
-            data = ($.each( response.episode, function (key, val) {
-                $.ajax({
-                    type: "GET",
-                    url: val,
-                    success: function ( epData ) {
-                        return epData;
-                    }
-                })
-            } ));
-            return data;
-        }
-    }) } )();
+//     var episData = ( function() { $.ajax({
+//         type: "GET",
+//         url: URL,
+//         success: function ( response ) {
+//             var data = null;
+//             data = ($.each( response.episode, function (key, val) {
+//                 $.ajax({
+//                     type: "GET",
+//                     url: val,
+//                     success: function ( epData ) {
+//                         return epData;
+//                     }
+//                 })
+//             } ));
+//             return data;
+//         }
+//     }) } )();
 
-    return episData;
-};
+//     return episData;
+// };
+// #ENDREGION
+
