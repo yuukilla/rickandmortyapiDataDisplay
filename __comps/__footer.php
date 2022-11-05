@@ -6,21 +6,27 @@
             case 'endpoints':
                 ?> <script src="/__resources/js/jqGetEndpoints.js" ></script> <?php
                 break;
-            
+
+            // Characters
             case 'chars':
                 ?> <script src="/__resources/js/jqGetCharacters.js" ></script> <?php
                 break;
             case 'charinfo':
                 ?> <script src="/__resources/js/jqGetCharacterInfo.js" ></script> <?php
                 break;
-            
-            case 'locations':
+            // EndCharacters
+
+            // Locations
+            case 'locs':
                 ?> <script src="/__resources/js/jqGetLocations.js" ></script> <?php
                 break;
+            // EndLocations
 
-            case 'episodes':
+            // Episodes
+            case 'eps':
                 ?> <script src="/__resources/js/jqGetEpisodes.js" ></script> <?php
                 break;
+            // EndEpisodes
 
             default:
                 break;

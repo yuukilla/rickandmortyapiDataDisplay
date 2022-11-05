@@ -24,6 +24,21 @@ $.ajax({
     url: apiSearchURL,
     success: function (response) {
         $.each(response.results, function (index, value) { 
+            var strLocationURL;
+            var strOriginURL;
+
+            if ( value.location.url == "" ) {
+                strLocationURL = `<a class="link-dark text-decoration-none">${value.location.name}</a><br><br>`;
+            } else {
+                strLocationURL = `<a href="/location/${value.location.url.split('/')[5]}" class="link-dark text-decoration-none">${value.location.name}</a><br><br>`;
+            }
+
+            if ( value.origin.url == "" ) {
+                strOriginURL = `<a class="link-dark text-decoration-none">${value.origin.name}</a>`;
+            } else {
+                strOriginURL = `<a href="/location/${value.origin.url.split('/')[5]}" class="link-dark text-decoration-none">${value.origin.name}</a>`;
+            }
+
             var strHTML = `
             <div class="col-lg-6 my-2">
                 <div class="card bg-light text-dark rounded">
@@ -39,9 +54,9 @@ $.ajax({
                                 </div>
                                 <div>
                                     <span class="text-secondary h6">Last known location:</span><br>
-                                    <a href="/location.php/${value.location.url.split('/')[5]}" class="link-dark text-decoration-none">${value.location.name}</a><br><br>
+                                    ` + strLocationURL + `
                                     <span class="text-secondary h6">First seen in:</span><br>
-                                    <a href="/location.php/${value.origin.url.split('/')[5]}" class="link-dark text-decoration-none">${value.origin.name}</a>
+                                    ` + strOriginURL + `
                                 </div>
                             </div>
                         </div>

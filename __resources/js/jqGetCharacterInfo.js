@@ -15,12 +15,26 @@ $.ajax({
     type: "GET",
     url: apiCharacterURL,
     success: function (response) {
+        var strLocationURL;
+        var strOriginURL;
         if ( response.status == "Alive" ) {
             var statusColor = "text-success";
         } else if ( response.status == "Dead" ) {
             var statusColor = "text-danger";
         } else {
             var statusColor = "text-secondary"
+        }
+
+        if ( response.location.url == "" ) {
+            strLocationURL = `<a class="link-dark fw-bold text-decoration-none">${response.location.name}</a><br><br>`;
+        } else {
+            strLocationURL = `<a href="/location/${response.location.url.split('/')[5]}" class="link-primary fw-bold text-decoration-none">${response.location.name}</a><br><br>`;
+        }
+
+        if ( response.origin.url == "" ) {
+            strOriginURL = `<a class="link-dark fw-bold text-decoration-none">${response.origin.name}</a>`;
+        } else {
+            strOriginURL = `<a href="/location/${response.origin.url.split('/')[5]}" class="link-primary fw-bold text-decoration-none">${response.origin.name}</a>`;
         }
         var strHTMLCard = `
             <div class="card bg-light text-dark rounded m-0 p-0 mb-5" style="width: 48rem;">
@@ -37,11 +51,11 @@ $.ajax({
                             <div>
                                 <div class="mb-3">
                                     <p class="card-text text-muted mb-0">Last known location:</p>
-                                    <a href="/location/${response.location.url.split('/')[5]}" class="link-primary card-text">${response.location.name}</a>
+                                    ` + strLocationURL + `
                                 </div>
                                 <div>
                                     <p class="card-text text-muted mb-0">First seen in:</p>
-                                    <a href="/location/${response.origin.url.split('/')[5]}" class="link-primary card-text">${response.origin.name}</a>
+                                    `+ strOriginURL +`
                                 </div>
                             </div>
                         </div>
@@ -51,80 +65,25 @@ $.ajax({
         `;
         $("#main").append( strHTMLCard );
 
+        /**
+         * Get&Display episodes* from API with AJAX
+         */
+        $.each( response.episode, function(key, value) {
+            $.ajax({
+                type: "GET",
+                url : value,
+                success: function (response) {
+                    $("#tbody").append(
+                        `<tr>
+                            <td> <a href="/episode/${response.id}" class="link-primary text-decoration-none">${response.episode}</a></td>
+                            <td>${response.name}</td>
+                        </tr>`
+                    )
+                }
+            })
+        })
+
     }
 });
 /** END Get&Display characterData* */
-
-/**
- * Get&Display episodes* from API with AJAX
- */
-// #REGION DOGSHITCODE
-// $.ajax({
-//     type: "GET",
-//     url: apiCharacterURL,
-//     success: function (response) {
-//         $.each(response.episode, function(key, val) {
-//             var data = ($.ajax({
-//                 type: "GET",
-//                 url: val,
-//                 success: function( data ) {
-                    
-//                     return data;
-//                 }
-//             }));
-//             console.log( data )
-//         })
-//     }
-// })
-
-// var epsData = ( function () {
-//     var data = ( function() {
-//         $.ajax({
-//             type: "GET",
-//             url: apiCharacterURL,
-//             success: function ( response ) {
-//                 var data = ( function () { $.each( response.episode, function (key, val) {
-//                     var data = ( function () {
-//                         $.ajax({
-//                             type: "GET",
-//                             url: val,
-//                             success: function(data){
-//                                 return data;
-//                             }
-//                         });
-//                     })();
-//                     return data;
-//                 } )})();
-//                 return data;
-//             }
-//         });
-//     } );
-//     return data;
-    
-// })(apiCharacterURL);
-// console.log();
-
-// var epsData = function( URL ) {
-
-//     var episData = ( function() { $.ajax({
-//         type: "GET",
-//         url: URL,
-//         success: function ( response ) {
-//             var data = null;
-//             data = ($.each( response.episode, function (key, val) {
-//                 $.ajax({
-//                     type: "GET",
-//                     url: val,
-//                     success: function ( epData ) {
-//                         return epData;
-//                     }
-//                 })
-//             } ));
-//             return data;
-//         }
-//     }) } )();
-
-//     return episData;
-// };
-// #ENDREGION
 

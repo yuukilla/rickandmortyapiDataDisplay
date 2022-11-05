@@ -5,7 +5,7 @@ require_once __DIR__ . '/__resources/php/render.php';
 
 render( '__header', array( 'title' => "Rick&Morty API" ) );
 
-render( 'home', array(
+render( '__home', array(
     'heading' => "Rick&Morty API"
 ) );
 
