@@ -28,7 +28,7 @@ $.ajax({
                     <div class="card bg-dark text-secondary rounded">
                         <div class="d-flex flex-row">
                             <div class="m-3">
-                                <h5 class="card-title mb-3 text-warning"><a data-bs-toggle="modal" data-bs-target="#modal${value.id}" style="cursor: pointer;">${value.name}</a></h5>
+                                <h5 class="card-title mb-3 text-warning"><a data-bs-toggle="modal" data-bs-target="#modalLocation" style="cursor: pointer;" onclick="updateModal(${value.id})" >${value.name}</a></h5>
                                 <p class="text-muted mb-0">Dimension:</p>
                                 <p class="card-text text-light">${value.dimension}</p>
                                 <p class="text-muted mb-0">Type:</p>
@@ -39,35 +39,6 @@ $.ajax({
                 </div>
             `;
             $("#main").append(strHTMLCard);
-            var strHTMLModal = `
-                <div class="modal fade" id="modal${value.id}">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content bg-dark text-light">
-                            <div class="modal-header" style="border-bottom: var(--bs-modal-header-border-width) solid var(--bs-dark)">
-                                <h3 class="modal-title fs-5">${value.name}</h3>
-                                <button type="button" class="btn-close" style="filter: invert(1);" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body bg-dark text-light">
-                                <p class="text-muted mb-0">Dimension:</p>
-                                <p>${value.dimension}</p>
-                                <p class="text-muted mb-0">Type:</p>
-                                <p>${value.type}</p>
-                                <p class="text-muted mb-0">Residents:
-                                    <span>
-                                        <button type="button" onClick="toggleResidents(${value.id})" class="btn btn-outline-warning">Show</button>
-                                    </span>
-                                </p>
-                                <table class="table table-dark">
-                                    <tbody id="resTable_${value.id}">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            $("#modals").append(strHTMLModal);
-            
             
         })
         if ( strPage == "?page=1" ) {
@@ -103,35 +74,54 @@ function toggleResidents(id)
 {
     bolDisplay = !bolDisplay;
 
-    if ( !bolDisplay ) {
-        $("#resTable_"+id).empty();
-    } else {
+    if ( bolDisplay ) {
         $.ajax({
             type: "GET",
             url: "https://rickandmortyapi.com/api/location/" + id,
             success: function(response) {
-                $.each(response.residents, function( index, value ) {
+                $("#modalLocation #btn-show-residents")[0].innerText = 'Hide';
+                $("#modalLocation #residents").empty();
+                $.each( response.residents, function(key, val) {
                     $.ajax({
                         type: "GET",
-                        url: value,
+                        url: val,
                         success: function(response) {
-                            $("#resTable_" + id).append(`
-                                <tr>
-                                    <td>
-                                        <img src="${response.image}" width=32 height=32>
-                                    </td>
-                                    <td>
-                                        <a href="/character/${response.id}" class="link-primary text-decoration-none">${response.name}</a>
-                                    </td>
-                                </tr>
+                            $("#modalLocation #residents").append(`
+                                <div class="col-md-5 m-2 p-0 bg-dark text-light rounded">
+                                    <img src="${response.image}" class="w-100 rounded">
+                                    <h6 class="text-center mt-2">
+                                        <a href="/character/${response.id}" class="link-warning text-decoration-none" style="cursor: pointer;">    
+                                            ${response.name}
+                                        </a>
+                                    </h6>
+                                </div>
                             `)
-    
                         }
                     })
+                    
                 })
             }
         })
-
+    } else {
+        $("#modalLocation #btn-show-residents")[0].innerText = 'Show';
+        $("#modalLocation #residents").empty();
     }
     
+}
+
+function updateModal(id)
+{
+    $.ajax({
+        type: "GET",
+        url: "https://rickandmortyapi.com/api/location/" + id,
+        success : function(response) {
+            $("#modalLocation #btn-show-residents")[0].innerText = 'Show';
+            $("#modalLocation #residents").empty();
+            bolDisplay = false;
+            $("#modalLocation #title")[0].innerText = response.name;
+            $("#modalLocation #dimension")[0].innerText = response.dimension;
+            $("#modalLocation #type")[0].innerText = response.type;
+            $("#modalLocation #btn-show-residents").attr("onclick", `toggleResidents(${id})`)
+        }
+    })
 }
