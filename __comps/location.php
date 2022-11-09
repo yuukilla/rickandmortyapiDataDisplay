@@ -24,7 +24,7 @@
                             </div>
                             <div class="d-flex justify-content-center">
                                 <p class="text-muted mb-0 mx-2 d-flex align-items-center">Residents:</p>
-                                <button type="button" onClick="toggleResidents(${value.id})" id="btn-show-residents" class="mx-2 btn btn-outline-warning">Show</button>
+                                <button type="button" onClick="toggleResidents(NULL)" id="btn-show-residents" class="mx-2 btn btn-outline-warning">Show</button>
                             </div>
                             <div class="container">
                                 <div class="row d-flex justify-content-center align-items-center mt-2" id="residents">

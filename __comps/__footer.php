@@ -18,13 +18,19 @@
 
             // Locations
             case 'locs':
-                ?> <script src="/__resources/js/jqGetLocations.js" ></script> <?php
+                ?>
+                    <script src="/__resources/js/jqGetLocations.js" ></script>
+                    <script src="/__resources/js/jqGetLocationInfo.js"></script>
+                <?php
                 break;
             // EndLocations
 
             // Episodes
             case 'eps':
-                ?> <script src="/__resources/js/jqGetEpisodes.js" ></script> <?php
+                ?>
+                    <script src="/__resources/js/jqGetEpisodes.js" ></script>
+                    <script src="/__resources/js/jqGetEpisodeInfo.js"></script>
+                <?php
                 break;
             // EndEpisodes
 

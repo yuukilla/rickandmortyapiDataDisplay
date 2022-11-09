@@ -28,13 +28,13 @@ $.ajax({
         if ( response.location.url == "" ) {
             strLocationURL = `<a class="link-dark fw-bold text-decoration-none">${response.location.name}</a><br><br>`;
         } else {
-            strLocationURL = `<a href="/location/${response.location.url.split('/')[5]}" class="link-primary fw-bold text-decoration-none">${response.location.name}</a><br><br>`;
+            strLocationURL = `<a href="/location#${response.location.url.split('/')[5]}" class="link-primary fw-bold text-decoration-none">${response.location.name}</a><br><br>`;
         }
 
         if ( response.origin.url == "" ) {
             strOriginURL = `<a class="link-dark fw-bold text-decoration-none">${response.origin.name}</a>`;
         } else {
-            strOriginURL = `<a href="/location/${response.origin.url.split('/')[5]}" class="link-primary fw-bold text-decoration-none">${response.origin.name}</a>`;
+            strOriginURL = `<a href="/location#${response.origin.url.split('/')[5]}" class="link-primary fw-bold text-decoration-none">${response.origin.name}</a>`;
         }
         var strHTMLCard = `
             <div class="card bg-light text-dark rounded m-0 p-0 mb-5" style="width: 48rem;">
@@ -75,7 +75,7 @@ $.ajax({
                 success: function (response) {
                     $("#tbody").append(
                         `<tr>
-                            <td> <a href="/episode/${response.id}" class="link-primary text-decoration-none">${response.episode}</a></td>
+                            <td> <a href="/episode#${response.id}" class="link-primary text-decoration-none">${response.episode}</a></td>
                             <td>${response.name}</td>
                         </tr>`
                     )
